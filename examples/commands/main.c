@@ -95,8 +95,8 @@ void cmd() {
 }
 
 int main(void) {
-    uart_init(F_CPU, 9600); /* init UART with baudrate 9600 */
-    uart_stdio_set();   /* set uart as std io */
+    uart_init(9600);    /* init UART with baudrate 9600 */
+    uart_set_stdio();   /* set uart as std io */
 
     printf_P(PSTR("\nHello there! Type \"help\" to get help =)\n"));
     cmd();  /* command line */

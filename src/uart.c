@@ -7,20 +7,22 @@
 #include <defines.h>
 #include "uart.h"
 
+static FILE uart_stream = FDEV_SETUP_STREAM(uart_putchar, uart_getchar, _FDEV_SETUP_RW);
+
 /*!
- * @brief Perform UART startup initialization. Initialize the UART, tx/rx, 8N1.
- * @param cpu_freq CPU frequency
+ * @brief Perform UART startup initialization.
+ * Initialize the UART, tx/rx, 8N1.
  * @param baudrate Baudrate
  */
-void uart_init(uint32_t cpu_freq, uint32_t baudrate) {
+void uart_init(uint32_t baudrate) {
     UCSR0B = 0x00;  // disable while setting baud rate
     // UCSR0A = 0x02;  // set U2x
     // UCSR0C = 0x06;  // Asynchronous, 8 bits data & 2(1?) stop bits
 
     /* calculate UBRR */
-    uint16_t ubrr = (cpu_freq / (16UL * baudrate)) - 1;   // for async, normal mode (U2X = 0)
-    // uint16_t ubrr = (cpu_freq / (8UL * baudrate)) - 1;    // for async, 2x speed (U2X = 1)
-    // uint16_t ubrr = (cpu_freq / (2UL * baudrate)) - 1;    // for sync
+    uint16_t ubrr = (F_CPU / (16UL * baudrate)) - 1;   // for async, normal mode (U2X = 0)
+    // uint16_t ubrr = (F_CPU / (8UL * baudrate)) - 1;    // for async, 2x speed (U2X = 1)
+    // uint16_t ubrr = (F_CPU / (2UL * baudrate)) - 1;    // for sync
 
     /* Set baud rate */
     UBRR0L = (uint8_t)ubrr;
@@ -34,15 +36,6 @@ void uart_init(uint32_t cpu_freq, uint32_t baudrate) {
 }
 
 /*!
- * @brief Set UART as stdio
- */
-void uart_stdio_set(void) {
-    static FILE uart_stdio;
-    fdev_setup_stream(&uart_stdio, uart_putchar, uart_getchar, _FDEV_SETUP_RW);
-    stdout = stdin = &uart_stdio;
-}
-
-/*!
  * @brief UART turn off
  */
 void uart_end(void) {
@@ -50,6 +43,8 @@ void uart_end(void) {
     bit_clear(UCSR0B, TXEN0);
     bit_clear(UCSR0B, RXCIE0);
     bit_clear(UCSR0B, UDRIE0);
+    
+    fdev_close();
 }
 
 /*!
@@ -88,3 +83,25 @@ int	uart_getchar(FILE *stream) {
 
     return c;
 }
+
+/*!
+ * @brief Set UART as stdio
+ */
+void uart_set_stdio(void) {
+    stdout = stdin = &uart_stream;
+}
+
+/*!
+ * @brief Set UART as std in
+ */
+void uart_set_stdin(void) {
+    stdin = &uart_stream;
+}
+
+/*!
+ * @brief Set UART as std out
+ */
+void uart_set_stdout(void) {
+    stdout = &uart_stream;
+}
+
