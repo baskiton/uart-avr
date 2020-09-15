@@ -1,6 +1,6 @@
 {
     "name": "UART",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "description": "This library is used to communicate with a computer or other devices.",
     "keywords": "avr, baskiton, uart",
     "repository":
