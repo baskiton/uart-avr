@@ -7,7 +7,6 @@
 #include <defines.h>
 #include "uart.h"
 
-static FILE uart_stream = FDEV_SETUP_STREAM(uart_putchar, uart_getchar, _FDEV_SETUP_RW);
 
 /*!
  * @brief Perform UART startup initialization.
@@ -33,6 +32,9 @@ void uart_init(uint32_t baudrate) {
     
     /* Enable receiver and transmitter */
     UCSR0B = _BV(RXEN0) | _BV(TXEN0);
+
+    /* setting io stream */
+    fdev_setup_stream(&uart_stream, uart_putchar, uart_getchar, _FDEV_SETUP_RW);
 }
 
 /*!

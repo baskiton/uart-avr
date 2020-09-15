@@ -9,7 +9,6 @@
 
 void cmd_help(void) {
     printf_P(PSTR(
-        "bOSduino - arduino/avr operating system\n"
         "Commands list:\n"
         " - help:    display this message\n"
         " - cls:     clear screen/display\n"

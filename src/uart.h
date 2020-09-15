@@ -7,6 +7,8 @@
 /* Size of internal line buffer used by uart_getchar(). */
 #define RX_BUFSIZE 80
 
+FILE uart_stream;
+
 extern void uart_init(uint32_t baudrate);
 
 extern void uart_set_stdio(void);
