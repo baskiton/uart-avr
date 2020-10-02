@@ -1,7 +1,7 @@
 {
     "name": "UART",
     "version": "1.1.0",
-    "description": "This library is used to communicate with a computer or other devices.",
+    "description": "This library is used to communicate with a computer or other devices. Only for Atmega328p or compatible",
     "keywords": "avr, baskiton, uart",
     "repository":
     {
@@ -22,5 +22,15 @@
     "platforms": ["atmelavr"],
     "dependencies": {
         "defines-avr": ">=1.0.0"
-    }
+    },
+    "examples": [
+        {
+            "name": "Commands",
+            "base": "examples/commands",
+            "files": [
+                "main.c",
+                "cmd.c"
+            ]
+        }
+    ]
 }
