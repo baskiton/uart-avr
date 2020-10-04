@@ -1,8 +1,8 @@
+#include <avr/io.h>
+#include <avr/interrupt.h>
+
 #include <stdint.h>
 #include <stdio.h>
-
-#include <avr/io.h>
-#include <avr/pgmspace.h>
 
 #include <defines.h>
 #include "uart.h"
@@ -14,6 +14,10 @@
  * @param baudrate Baudrate
  */
 void uart_init(uint32_t baudrate) {
+    uint8_t sreg = SREG;
+
+    cli();
+
     UCSR0B = 0x00;  // disable while setting baud rate
     // UCSR0A = 0x02;  // set U2x
     // UCSR0C = 0x06;  // Asynchronous, 8 bits data & 2(1?) stop bits
@@ -35,6 +39,8 @@ void uart_init(uint32_t baudrate) {
 
     /* setting io stream */
     fdev_setup_stream(&uart_stream, uart_putchar, uart_getchar, _FDEV_SETUP_RW);
+
+    SREG = sreg;
 }
 
 /*!
@@ -106,4 +112,3 @@ void uart_set_stdin(void) {
 void uart_set_stdout(void) {
     stdout = &uart_stream;
 }
-

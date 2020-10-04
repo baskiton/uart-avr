@@ -4,9 +4,6 @@
 #include <stdint.h>
 #include <stdio.h>
 
-/* Size of internal line buffer used by uart_getchar(). */
-#define RX_BUFSIZE 80
-
 FILE uart_stream;
 
 extern void uart_init(uint32_t baudrate);
@@ -21,4 +18,3 @@ extern int uart_putchar(char c, FILE *stream);
 extern int uart_getchar(FILE *stream);
 
 #endif  /* !UART_H */
-
