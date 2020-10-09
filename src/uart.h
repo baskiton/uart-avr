@@ -6,15 +6,15 @@
 
 FILE uart_stream;
 
-extern void uart_init(uint32_t baudrate);
+void uart_init(uint32_t baudrate);
 
-extern void uart_set_stdio(void);
-extern void uart_set_stdin(void);
-extern void uart_set_stdout(void);
+void uart_set_stdio(void);
+void uart_set_stdin(void);
+void uart_set_stdout(void);
 
-extern void uart_end(void);
+void uart_end(void);
 
-extern int uart_putchar(char c, FILE *stream);
-extern int uart_getchar(FILE *stream);
+int uart_putchar(char c, FILE *stream);
+int uart_getchar(FILE *stream);
 
 #endif  /* !UART_H */
